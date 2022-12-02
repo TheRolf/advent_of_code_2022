@@ -1,14 +1,6 @@
-#!/usr/bin/ruby
+require_relative 'common'
+include Common
 
-$base_folder = "C:/GitHub/advent_of_code_2022/"
-
-def greeting
-	puts "Hello csajszi"
-	puts "dikk"
-	@x = 5
-	@y = 4.444
-	puts "x erteke #@x es y erteke #@y"
-end
 
 def dec01_p01
 	max_sum = 0
