@@ -35,7 +35,7 @@ def print_crates(crate_stacks)
     puts
 end
 
-def dec04_p01
+def dec05_p01
     crate_stacks = read_crates
     read = false
     IO.foreach($base_folder + "dec05.txt"){ |line|
@@ -55,7 +55,7 @@ def dec04_p01
     puts
 end
 
-def dec04_p02
+def dec05_p02
     crate_stacks = read_crates
     read = false
     IO.foreach($base_folder + "dec05.txt"){ |line|
