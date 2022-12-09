@@ -18,42 +18,55 @@ def dec07_p01
     }
 end
 
-def total_size(object)
-    if object.class == Integer
-        return object
-    elsif object.class == Hash
-        size = 0
-        object.each{ |child, attribute|
-            size += total_size(attribute)
+puts
+dec07_p01
+
+
+class Folder
+    def initialize(name, parent)
+        @name = name
+        @children = []
+        @parent = parent
+        if @parent != nil
+            @parent.add_child(self)
+        end
+    end
+
+    def add_child(object)
+        @children.append(object)
+    end
+
+    def size()
+        s = 0
+        @children.each{ |child|
+            s += child.size
         }
-        return size
-    else
-        p "Invalid type"
+        return s
     end
 end
 
-tree = {"/" => {
-            "cwdpn" => {
-                "mnm" => {"file1" => 456, "file2" => 320},
-                "nmsvc" => {},
-                "rgbdq" => {}
-                },
-            "drzllllv" => {"file324" => 776},
-            "fqflwvh" => {},
-            "jczm" => {"file444" => 444},
-            "asdfile" => 1345
-            }
-        }
+class File
+    def initialize(name, size, parent)
+        @name = name
+        @size = size
+        @parent = parent
+        if @parent != nil
+            @parent.add_child(self)
+        end
+    end
 
-pp tree
-puts
-tree["/"].each{ |object, value|
-    print object, value
-    puts
-}
+    def size()
+        return @size
+    end
+end
 
-puts
-p total_size(tree)
 
+root = Folder.new("/", nil)
+folder1 = Folder.new("folder1", root)
+file1 = File.new("file1", 456, root)
+file2 = File.new("file2", 100, folder1)
+pp root
+pp root.size
 puts
-dec07_p01
+pp folder1
+# pp folder1.size
