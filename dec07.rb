@@ -4,32 +4,28 @@ require 'pp'
 require_relative 'common'
 include Common
 
-def dec07_p01
-    pwd = "/"
-    tree = {pwd => {}}
-    pp tree
-    IO.foreach($base_folder + "dec07.txt"){ |line|
-        sline = line.split()
-        if sline[0] == "$"
-            if sline[1] == "cd"
-                           
-            end
-        end       
-    }
-end
-
-puts
-dec07_p01
-
-
-class Folder
-    def initialize(name, parent)
+class FileSystemObject
+    def initialize(name, size, parent)
         @name = name
-        @children = []
         @parent = parent
         if @parent != nil
             @parent.add_child(self)
         end
+    end
+
+    def get_name()
+        return @name
+    end
+
+    def get_parent()
+        return @parent
+    end
+end
+
+class Folder < FileSystemObject
+    def initialize(name, size, parent)
+        super
+        @children = []
     end
 
     def add_child(object)
@@ -43,30 +39,57 @@ class Folder
         }
         return s
     end
+
+    def get_child(name)
+        @children.each{ |child|
+            if child.get_name == name
+                return child
+            end
+        }
+        return nil
+    end
 end
 
-class File
+class Fajl < FileSystemObject
     def initialize(name, size, parent)
-        @name = name
+        super
         @size = size
-        @parent = parent
-        if @parent != nil
-            @parent.add_child(self)
-        end
     end
-
+    
     def size()
         return @size
     end
 end
 
 
-root = Folder.new("/", nil)
-folder1 = Folder.new("folder1", root)
-file1 = File.new("file1", 456, root)
-file2 = File.new("file2", 100, folder1)
-pp root
-pp root.size
-puts
-pp folder1
-# pp folder1.size
+root = Folder.new("/", 0, nil)
+folder1 = Folder.new("folder1", 0, root)
+file1 = Fajl.new("file1", 456, root)
+file2 = Fajl.new("file2", 100, folder1)
+
+pp root.get_child("file1")
+
+def dec07_p01
+    root = Folder.new("/", 0, nil)
+    pwd = root
+    IO.foreach($base_folder + "dec07.txt"){ |line|
+        sline = line.split()
+        if sline[0] == "$"
+            if sline[1] == "cd"
+                if sline[2] == ".."
+                    pwd = pwd.get_parent()
+                elsif sline[2] != "/"
+                    pwd = pwd.get_child(sline[2])
+                end
+            end
+        elsif sline[0] == "dir"
+            Folder.new(sline[1], 0, pwd)
+        else
+            Fajl.new(sline[1], sline[0].to_i, pwd)
+        end       
+    }
+    pp root
+    pp root.size
+end
+
+# dec07_p01
