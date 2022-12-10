@@ -5,7 +5,7 @@ require_relative 'common'
 include Common
 
 class FileSystemObject
-    def initialize(name, size, parent)
+    def initialize(name, parent)
         @name = name
         @parent = parent
         if @parent != nil
@@ -23,7 +23,7 @@ class FileSystemObject
 end
 
 class Folder < FileSystemObject
-    def initialize(name, size, parent)
+    def initialize(name, parent)
         super
         @children = []
     end
@@ -32,10 +32,14 @@ class Folder < FileSystemObject
         @children.append(object)
     end
 
-    def size()
+    def get_children()
+        return @children
+    end
+
+    def get_size()
         s = 0
         @children.each{ |child|
-            s += child.size
+            s += child.get_size
         }
         return s
     end
@@ -52,25 +56,52 @@ end
 
 class Fajl < FileSystemObject
     def initialize(name, size, parent)
-        super
+        super(name, parent)
         @size = size
     end
-    
-    def size()
+
+    def get_size()
         return @size
     end
 end
 
+def sum_smaller_than(folder, siz)
+    s = 0
+    folder_size = folder.get_size
+    if folder_size < siz
+        s += folder_size
+    end
+    folder.get_children.each{ |object|
+        if object.class == Folder
+            s += sum_smaller_than(object, siz)
+        end
+    }
+    return s
+end
 
-root = Folder.new("/", 0, nil)
-folder1 = Folder.new("folder1", 0, root)
-file1 = Fajl.new("file1", 456, root)
-file2 = Fajl.new("file2", 100, folder1)
-
-pp root.get_child("file1")
+def to_delete(folder, siz)
+    min_k = ""
+    min_v = Float::INFINITY
+    folder.get_children.each{ |object|
+        if object.class == Folder
+            key, value = to_delete(object, siz)
+            if value >= siz and value < min_v
+                min_k, min_v = key, value
+            end
+        end
+    }
+    folder_size = folder.get_size
+    print folder.get_name, " ", folder_size
+    puts
+    if folder_size >= siz and folder_size < min_v
+        return folder.get_name, folder_size
+    else
+        return min_k, min_v
+    end
+end
 
 def dec07_p01
-    root = Folder.new("/", 0, nil)
+    root = Folder.new("/", nil)
     pwd = root
     IO.foreach($base_folder + "dec07.txt"){ |line|
         sline = line.split()
@@ -83,13 +114,17 @@ def dec07_p01
                 end
             end
         elsif sline[0] == "dir"
-            Folder.new(sline[1], 0, pwd)
+            Folder.new(sline[1], pwd)
         else
             Fajl.new(sline[1], sline[0].to_i, pwd)
         end       
     }
-    pp root
-    pp root.size
+
+    pp root.get_size
+
+    pp sum_smaller_than(root, 100000)
+
+    pp to_delete(root, 8381165)
 end
 
-# dec07_p01
+dec07_p01
