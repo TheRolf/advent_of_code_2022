@@ -20,6 +20,20 @@ class FileSystemObject
     def get_parent()
         return @parent
     end
+
+    def pprint(depth=0)
+        for i in (0..depth-1)
+            print "    "
+        end
+        print "└── ", @name, " ", get_size
+        puts
+        if self.class == Folder
+            @children.each{ |child|
+                child.pprint(depth+1)
+            }
+        end
+        # "└" "─" "├"
+    end
 end
 
 class Folder < FileSystemObject
@@ -91,8 +105,8 @@ def to_delete(folder, siz)
         end
     }
     folder_size = folder.get_size
-    print folder.get_name, " ", folder_size
-    puts
+    # print folder.get_name, " ", folder_size
+    # puts
     if folder_size >= siz and folder_size < min_v
         return folder.get_name, folder_size
     else
@@ -124,7 +138,8 @@ def dec07_p01
 
     pp sum_smaller_than(root, 100000)
 
-    pp to_delete(root, 8381165)
+    pp to_delete(root, root.get_size - 40000000)
+
 end
 
 dec07_p01
