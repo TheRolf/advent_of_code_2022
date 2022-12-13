@@ -4,7 +4,7 @@ require 'set'
 require_relative 'common'
 include Common
 
-class Bridge
+class Rope
     def initialize(file_path)
         @head_x, @head_y = 0, 0
         @tail_x, @tail_y = 0, 0
@@ -15,14 +15,14 @@ class Bridge
     def walk()
         coeff = {"U" => [0, 1], "D" => [0, -1], "R" => [1, 0], "L" => [-1, 0]}
         IO.foreach(@file_path){ |line|
-            pp line.strip()
+            # pp line.strip()
             sline = line.strip().split()
             direction, steps = sline[0], sline[1].to_i
             for i in (0..steps-1)
                 head_step(coeff[direction][0], coeff[direction][1])
-                pp ["H", @head_x, @head_y]
+                # pp ["H", @head_x, @head_y]
                 tail_step()
-                pp ["T", @tail_x, @tail_y]
+                # pp ["T", @tail_x, @tail_y]
             end
         }
     end
@@ -58,9 +58,9 @@ class Bridge
 end
 
 def dec09p01
-    bridge = Bridge.new($base_folder + "dec09.txt")
-    bridge.walk()
-    pp bridge.get_tail_visited.size
+    rope = Rope.new($base_folder + "dec09.txt")
+    rope.walk()
+    pp rope.get_tail_visited.size
 end
 
 dec09p01
