@@ -1,9 +1,6 @@
-require_relative 'common'
-include Common
-
 def read_crates
     crate_stacks = Array.new(9){ [] }
-    IO.foreach($base_folder + "dec05.txt"){ |line|
+    IO.foreach(__dir__ + "/dec05.txt"){ |line|
         if line[0] != " "
             for i in (0..8)
                 if line[1+4*i] != " "
@@ -38,7 +35,7 @@ end
 def dec05_p01
     crate_stacks = read_crates
     read = false
-    IO.foreach($base_folder + "dec05.txt"){ |line|
+    IO.foreach(__dir__ + "/dec05.txt"){ |line|
         if line.strip == ""
             read = true
         elsif read
@@ -58,7 +55,7 @@ end
 def dec05_p02
     crate_stacks = read_crates
     read = false
-    IO.foreach($base_folder + "dec05.txt"){ |line|
+    IO.foreach(__dir__ + "/dec05.txt"){ |line|
         if line.strip == ""
             read = true
         elsif read
@@ -86,10 +83,10 @@ end
 # print_crates(crate_stacks)
 
 
-dec04_p01
+dec05_p01
 
 a = [2, 3]
 a += [7, 6]
 p a
 
-dec04_p02
+dec05_p02

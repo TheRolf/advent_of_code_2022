@@ -1,8 +1,6 @@
 require 'pp'
 require 'set'
 
-require_relative 'common'
-include Common
 
 class Rope
     def initialize(file_path)
@@ -58,7 +56,7 @@ class Rope
 end
 
 def dec09p01
-    rope = Rope.new($base_folder + "dec09.txt")
+    rope = Rope.new(__dir__ + "/dec09.txt")
     rope.walk()
     pp rope.get_tail_visited.size
 end

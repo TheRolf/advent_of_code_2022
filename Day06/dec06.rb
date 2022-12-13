@@ -1,6 +1,3 @@
-require_relative 'common'
-include Common
-
 def all_different(chars)
     for i in (0..chars.size-1)
         for j in (i+1..chars.size-1)
@@ -25,12 +22,12 @@ def find_marker(chars, len)
 end
 
 def dec06_p01
-    data = File.read($base_folder + "dec06.txt")
+    data = File.read(__dir__ + "/dec06.txt")
     find_marker(data, 4)
 end
 
 def dec06_p02
-    data = File.read($base_folder + "dec06.txt")
+    data = File.read(__dir__ + "/dec06.txt")
     find_marker(data, 14)
 end
 

@@ -1,11 +1,9 @@
 require 'pp'
 
-require_relative 'common'
-include Common
 
 def read_grid
     grid = []
-    lines =  File.readlines($base_folder + "dec08.txt")
+    lines =  File.readlines(__dir__ + "/dec08.txt")
     lines.each{ |line|
         grid << line.strip().split("").map{|x| x.to_i}
     }

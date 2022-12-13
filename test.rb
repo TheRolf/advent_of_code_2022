@@ -1,5 +1,3 @@
-require_relative 'common'
-include Common
 
 def greeting
 	puts "Hello csajszi"

@@ -1,14 +1,10 @@
-require_relative 'common'
-include Common
-
-
 def dec02_p01
     pts_shape = {"X" => 1, "Y" => 2, "Z" => 3}
     pts_round = {["A", "X"] => 3, ["B", "Y"] => 3, ["C", "Z"] => 3,
                  ["A", "Y"] => 6, ["B", "Z"] => 6, ["C", "X"] => 6,
                  ["A", "Z"] => 0, ["B", "X"] => 0, ["C", "Y"] => 0}
     points = 0
-    IO.foreach($base_folder + "dec02_p01.txt"){ |line|
+    IO.foreach(__dir__ + "/dec02.txt"){ |line|
         elf, you = line.split(" ")
         points += pts_round[[elf, you]]
         points += pts_shape[you]
@@ -26,7 +22,7 @@ def dec02_p02
     shapes = {"X" => to_lose, "Y" => to_draw, "Z" => to_win}
     
     points = 0
-    IO.foreach($base_folder + "dec02_p01.txt"){ |line|
+    IO.foreach(__dir__ + "/dec02.txt"){ |line|
         elf, strategy = line.split(" ")
         points += pts_shape[ shapes[strategy][elf] ]
         points += pts_round[strategy]

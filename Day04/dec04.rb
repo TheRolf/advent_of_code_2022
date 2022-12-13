@@ -1,6 +1,3 @@
-require_relative 'common'
-include Common
-
 def fully_contains(range1, range2)
     if range1[0] <= range2[0] and range1[1] >= range2[1]
         return true
@@ -21,7 +18,7 @@ end
 
 def dec04_p01
     total_value = 0
-    IO.foreach($base_folder + "dec04.txt"){ |line|
+    IO.foreach(__dir__ + "/dec04.txt"){ |line|
         ranges = line.strip.split(",")
         elf1, elf2 = ranges[0].split("-"), ranges[1].split("-")
         elf1, elf2 = [elf1, elf2].map{|elf| elf.map{|x| x.to_i} }
@@ -34,7 +31,7 @@ end
 
 def dec04_p02
     total_value = 0
-    IO.foreach($base_folder + "dec04.txt"){ |line|
+    IO.foreach(__dir__ + "/dec04.txt"){ |line|
         ranges = line.strip.split(",")
         elf1, elf2 = ranges[0].split("-"), ranges[1].split("-")
         elf1, elf2 = [elf1, elf2].map{|elf| elf.map{|x| x.to_i} }

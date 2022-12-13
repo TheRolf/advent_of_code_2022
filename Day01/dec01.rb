@@ -1,11 +1,7 @@
-require_relative 'common'
-include Common
-
-
 def dec01_p01
 	max_sum = 0
 	current_sum = 0
-	IO.foreach($base_folder + "dec01_p01.txt"){ |line|
+	IO.foreach(__dir__ + "/dec01.txt"){ |line|
 		if line == "\n"
 			if current_sum > max_sum
 				max_sum = current_sum
@@ -39,7 +35,7 @@ end
 def dec01_p02
 	max_three_sums = [0, 0, 0]
 	current_sum = 0
-	IO.foreach($base_folder + "dec01_p01.txt"){ |line|
+	IO.foreach(__dir__ + "/dec01.txt"){ |line|
 		if line == "\n"
 			update_maxes max_three_sums, current_sum
 			current_sum = 0

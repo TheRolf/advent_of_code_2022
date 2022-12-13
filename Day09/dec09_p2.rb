@@ -1,8 +1,6 @@
 require 'pp'
 require 'set'
 
-require_relative 'common'
-include Common
 
 class Knot
     def initialize()
@@ -65,7 +63,7 @@ class RopeOnSteroids
 end
 
 def dec09p02
-    rope = RopeOnSteroids.new($base_folder + "dec09_p2_small.txt", 10)
+    rope = RopeOnSteroids.new(__dir__ + "/dec09_p2_small.txt", 10)
     rope.walk()
     pp rope.get_tail_visited.size
 end

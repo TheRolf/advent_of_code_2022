@@ -1,8 +1,5 @@
-
 require 'pp'
 
-require_relative 'common'
-include Common
 
 class FileSystemObject
     def initialize(name, parent)
@@ -117,7 +114,7 @@ end
 def dec07_p01
     root = Folder.new("/", nil)
     pwd = root
-    IO.foreach($base_folder + "dec07.txt"){ |line|
+    IO.foreach(__dir__ + "/dec07.txt"){ |line|
         sline = line.split()
         if sline[0] == "$"
             if sline[1] == "cd"
