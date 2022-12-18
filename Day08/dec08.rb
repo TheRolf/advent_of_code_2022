@@ -41,15 +41,15 @@ def visible(grid, i, j)
 end
 
 def number_of_visible(grid)
-    visible = 0
+    n_visible = 0
     for i in (0..grid.size-1)
         for j in (0..grid[0].size-1)
             if visible(grid, i, j)
-                visible += 1
+                n_visible += 1
             end
         end
     end
-    return visible
+    return n_visible
 end
 
 def scenic_score(grid, i, j)
