@@ -6,6 +6,11 @@ class Knot
     def initialize()
         @x, @y = 0, 0
     end
+    
+    def to_s
+        "[" + @x.to_s + ", " + @y.to_s + "] "
+    end
+    
     attr_accessor :x, :y
 end
 
@@ -28,9 +33,12 @@ class RopeOnSteroids
                 pp ["H", @knots[0].x, @knots[0].y]
                 for k in (1..@no_knots-1)
                     knots_step(k)
+                    print @knots[k]
                 end
                 @tail_visited.add([@knots[-1].x, @knots[-1].y])
+                puts
                 pp ["T", @knots[@no_knots-1].x, @knots[@no_knots-1].y]
+                puts
             end
         }
     end
@@ -41,14 +49,17 @@ class RopeOnSteroids
     end
 
     def knots_step(k)
-        if (@knots[k-1].y - @knots[k].y).abs >= 2
+        if (@knots[k-1].y - @knots[k].y).abs == 2 and (@knots[k-1].x - @knots[k].x).abs == 2
+            @knots[k].x = (@knots[k-1].x + @knots[k].x)/2
+            @knots[k].y = (@knots[k-1].y + @knots[k].y)/2
+
+        elsif (@knots[k-1].y - @knots[k].y).abs == 2
             if @knots[k-1].x != @knots[k].x
                 @knots[k].x = @knots[k-1].x
             end
             @knots[k].y = @knots[k-1].y > @knots[k].y ? @knots[k].y+1 : @knots[k].y-1
-        end
         
-        if (@knots[k-1].x - @knots[k].x).abs >= 2
+        elsif (@knots[k-1].x - @knots[k].x).abs == 2
             if @knots[k-1].y != @knots[k].y
                 @knots[k].y = @knots[k-1].y
             end
@@ -63,7 +74,7 @@ class RopeOnSteroids
 end
 
 def dec09p02
-    rope = RopeOnSteroids.new(__dir__ + "/dec09_p2_small.txt", 10)
+    rope = RopeOnSteroids.new(__dir__ + "/dec09.txt", 10)
     rope.walk()
     pp rope.get_tail_visited.size
 end
