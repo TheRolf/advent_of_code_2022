@@ -3,63 +3,74 @@ require 'json'
 
 def correct_order_scalars(left, right)
     if left > right
-        return false
-    end
-    return true
+        return -1
+    elsif left < right
+		return 1
+	else
+		return 0
+	end
 end
 
 def correct_order_arrays(left, right)
-    if left.size > right.size
-        return false
-    end
-    for i in 0..left.size-1
-        if !correct_order(left[i], right[i])
-            return false
+
+    for i in 0..[left.size-1, right.size-1].min
+		order = correct_order(left[i], right[i])
+        if order != 0
+            return order
         end
+    end
+	if left.size > right.size
+        return -1
+	elsif left.size < right.size
+		return 1
+	else
+		return 0
     end
 end
 
 def correct_order(left, right)
     if left.class == Integer && right.class == Integer
-        if !correct_order_scalars(left, right)
-            return false
-        end
+        return correct_order_scalars(left, right)
     elsif left.class == Array && right.class == Array
-        if !correct_order_arrays(left, right)
-            return false
-        end
+        return correct_order_arrays(left, right)
     else
         if left.class == Integer
             left = [left]
         else
             right = [right]
         end
-        if !correct_order_arrays(left, right)
-            return false
-        end
+        return correct_order_arrays(left, right)
     end
-    return true
 end
 
 def dec13
     i = 1
     indices_right_order = []
     left, right = "", ""
-    lines =  File.readlines(__dir__ + "/dec13_small.txt")
+    lines =  File.readlines(__dir__ + "/dec13.txt")
     lines.each{ |line|
         if i%3 == 1
             left = JSON.parse(line)
         elsif i%3 == 2
             right = JSON.parse(line)
         else
-            pp [left, right, correct_order(left, right)]
+            #pp [left, right, correct_order(left, right)]
 
-            if correct_order(left, right)
-                indices_right_order << (i/3 + 1)
+            if correct_order(left, right) == 1
+                indices_right_order << (i/3)
             end
         end
         i += 1
-    }
+	}
+	#pp [left, right, correct_order(left, right)]
+
+	if correct_order(left, right) == 1
+		indices_right_order << (i/3)
+	end
+    
+	pp indices_right_order
+	pp indices_right_order.sum
+	
 end
 
 dec13
