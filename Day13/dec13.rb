@@ -43,7 +43,7 @@ def correct_order(left, right)
     end
 end
 
-def dec13
+def dec13_p01
     i = 1
     indices_right_order = []
     left, right = "", ""
@@ -73,4 +73,31 @@ def dec13
 	
 end
 
-dec13
+def dec13_p02
+   
+    packets = [[[2]], [[6]]]
+    left, right = "", ""
+    lines =  File.readlines(__dir__ + "/dec13.txt")
+    lines.each{ |line|
+        if line.strip() != ""
+			packets << JSON.parse(line)
+		end	
+	}
+	for i in 0..packets.size-1
+		for j in i+1..packets.size-1
+			if correct_order(packets[i], packets[j]) == -1
+				packets[i], packets[j] = packets[j], packets[i]
+			end
+		end
+	end
+	#pp packets
+	for i in 0..packets.size-1
+		if packets[i] == [[2]] || packets[i] == [[6]]
+			pp i+1
+		end
+	end
+end
+
+#dec13_p01
+
+dec13_p02
