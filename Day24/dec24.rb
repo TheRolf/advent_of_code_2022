@@ -73,6 +73,7 @@ class Valley
 		pp possible
 		if possible.size == 1
 			@px, @py = possible[0]
+			@matrix[@px][@py] = "P"
 			return true
 		else
 			return false
@@ -91,9 +92,6 @@ class Valley
 				@matrix[x][y] = 2
 			end
 		}
-		if @px >= 0
-			@matrix[@px][@py] = "P"
-		end
 	end
 	
 	def draw
